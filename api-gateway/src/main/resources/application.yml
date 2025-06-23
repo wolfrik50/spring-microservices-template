@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: api-gateway
+  threads:
+    virtual:
+      enabled: true
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: USER-SERVICE
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/api/v1/users/**
+          - id: RATING-SERVICE
+            uri: lb://RATING-SERVICE
+            predicates:
+              - Path=/api/v1/ratings/**
+          - id: HOTEL-SERVICE
+            uri: lb://HOTEL-SERVICE
+            predicates:
+              - Path=/api/v1/hotels/**,/api/v1/staffs/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8080/eureka
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,gateway"
+      base-path: /actuator
+  health:
+    endpoints:
+      enabled: true
+    show-details: always
+
+server:
+  port: 8084
