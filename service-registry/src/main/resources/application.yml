@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: service-registry
+  threads:
+    virtual:
+      enabled: true
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+server:
+  port: 8080

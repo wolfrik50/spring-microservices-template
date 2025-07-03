@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: hotel-service
+  profiles:
+    active: @env@
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/review_system_db
+    username: wulf
+    password: wulf123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    naming:
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  jackson:
+    default-property-inclusion: non_null
+  config:
+    import: optional:configserver:http://127.0.0.1:8085
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://127.0.0.1:8080/eureka
+
+server:
+  port: 8082
+
+logging:
+  level:
+    root: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+      base-path: /actuator
+    health:
+      show-details: always
+
+

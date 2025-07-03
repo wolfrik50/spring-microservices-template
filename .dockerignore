@@ -1,0 +1,49 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+pom.xml.versionsBackup
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.settings/
+.classpath
+.project
+.vscode/
+*.launch
+
+# Build output
+**/target/
+**/build/
+
+# Logs
+logs/
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.env.local
+*.env.*.local
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Git
+.git/
+.gitignore
+
+# Application properties
+**/application-*.{properties,yml,yaml}
+!**/src/main/resources/application-${env}.{properties,yml,yaml}
+
+# Exclude all test files
+**/src/test/
+**/*Test.java
+**/*Tests.java
