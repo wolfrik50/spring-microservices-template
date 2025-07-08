@@ -14,3 +14,12 @@ eureka:
 
 server:
   port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+    health:
+      show-details: always

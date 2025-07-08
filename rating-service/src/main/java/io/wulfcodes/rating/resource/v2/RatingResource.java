@@ -88,7 +88,7 @@ public class RatingResource {
         try {
             RatingCompositeData ratingCompositeData = ratingService.getRatingsByUserIdAndHotelId(userId, includeUser, hotelId, includeHotel);
 
-            Map<String, Object> details = (includeUser || includeHotel) ? new HashMap<>() : null;
+            Map<String, Object> details = new HashMap<>();
 
             UserData userData = ratingCompositeData.getUserData();
             if (Objects.nonNull(userData))
