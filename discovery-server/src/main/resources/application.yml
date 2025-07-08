@@ -1,10 +1,12 @@
+# Spring Properties
 spring:
   application:
-    name: service-registry
+    name: discovery-server
   threads:
     virtual:
       enabled: true
 
+# Eureka Properties
 eureka:
   instance:
     hostname: localhost
@@ -12,9 +14,11 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
 
+# Server Properties
 server:
   port: 8080
 
+# Management Properties
 management:
   endpoints:
     web:

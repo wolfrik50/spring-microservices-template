@@ -1,24 +1,37 @@
+# Spring Properties
 spring:
-  application:
+  application:      # Application Properties
     name: config-server
-  threads:
+  profiles:         # Profile Properties
+    active: @env@
+  threads:          # Threads Properties
     virtual:
       enabled: true
-  cloud:
+  cloud:            # Cloud Properties
     config:
       server:
         git:
           uri: https://github.com/wolfrik50/spring-microservices-config
           clone-on-start: true
 
+# Eureka Properties
 eureka:
   instance:
     prefer-ip-address: true
   client:
     fetch-registry: true
     register-with-eureka: true
-    service-url:
-      defaultZone: http://127.0.0.1:8080/eureka
 
+# Server Properties
 server:
   port: 8085
+
+# Management Properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+    health:
+      show-details: always

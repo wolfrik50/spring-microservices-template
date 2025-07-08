@@ -1,0 +1,4 @@
+# Spring Properties
+spring:
+  config:             # Config Properties
+    import: optional:configserver:http://config-server:8085

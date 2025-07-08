@@ -1,0 +1,8 @@
+# Spring Properties
+spring:
+  datasource:     # Datasource Properties
+    url: jdbc:postgresql://127.0.0.1:5432/review_system_db
+    username: wulf
+    password: wulf123
+  config:         # Config Properties
+    import: optional:configserver:http://127.0.0.1:8085

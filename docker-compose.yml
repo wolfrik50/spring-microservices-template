@@ -48,12 +48,12 @@ services:
     networks:
       - microservices-network
 
-  # Service Registry (Eureka)
-  service-registry:
+  # Discovery Server (Eureka)
+  discovery-server:
     build:
       context: .
-      dockerfile: service-registry/Dockerfile
-    container_name: service-registry
+      dockerfile: discovery-server/Dockerfile
+    container_name: discovery-server
     ports:
       - "8080:8080"
     depends_on:
@@ -78,7 +78,7 @@ services:
       - "8085:8085"
     depends_on:
       - mongodb
-      - service-registry
+      - discovery-server
     environment:
       - SPRING_PROFILES_ACTIVE=dev
     networks:
@@ -100,7 +100,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      service-registry:
+      discovery-server:
         condition: service_healthy
       config-server:
         condition: service_healthy
@@ -110,7 +110,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=wulf
       - SPRING_DATASOURCE_PASSWORD=wulf123
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8080/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8080/eureka/
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8085
     networks:
       - microservices-network
@@ -126,7 +126,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      service-registry:
+      discovery-server:
         condition: service_healthy
       config-server:
         condition: service_healthy
@@ -139,7 +139,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_JPA_SHOW-SQL=true
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8080/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8080/eureka/
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8085
     networks:
       - microservices-network
@@ -155,14 +155,14 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
-      service-registry:
+      discovery-server:
         condition: service_healthy
       config-server:
         condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - SPRING_DATA_MONGODB_URI=mongodb://wulf:wulf123@mongodb:27017/reviewSystemDB?authSource=admin
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8080/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8080/eureka/
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8085
     networks:
       - microservices-network
@@ -176,7 +176,7 @@ services:
     ports:
       - "8084:8084"
     depends_on:
-      service-registry:
+      discovery-server:
         condition: service_healthy
       config-server:
         condition: service_healthy
@@ -188,7 +188,7 @@ services:
         condition: service_healthy
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8080/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8080/eureka/
       - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8085
       - SPRING_CLOUD_GATEWAY_DISABLED=false
     networks:

@@ -1,4 +1,4 @@
-# Service Registry Application
+# Discovery Server Application
 Application to Manage all the Registered Services
 
 
