@@ -1,5 +1,5 @@
 # Create User
-curl --location --request POST 'http://127.0.0.1:8081/api/v1/users' \
+curl --location --request POST 'http://127.0.0.1:8082/api/v1/users' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -9,7 +9,7 @@ curl --location --request POST 'http://127.0.0.1:8081/api/v1/users' \
 }'
 
 # Get All Users
-curl --location --request GET 'http://127.0.0.1:8081/api/v1/users' \
+curl --location --request GET 'http://127.0.0.1:8082/api/v1/users' \
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json'
 

@@ -30,3 +30,5 @@ management:
   endpoint:
     gateway:
       enabled: true
+    routes:
+      enabled: true

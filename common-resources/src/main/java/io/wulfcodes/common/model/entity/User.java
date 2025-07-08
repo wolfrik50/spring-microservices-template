@@ -31,29 +31,6 @@ public class User implements Persistable<String> {
     @Column("about")
     private String about;
 
-    public User modify(User that) {
-        Field[] fields = that.getClass().getDeclaredFields();
-
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-
-                Object thisValue = field.get(this);
-                Object thatValue = field.get(that);
-
-                if (Objects.nonNull(thatValue) && !Objects.equals(thatValue, thisValue))
-                    field.set(this, thatValue);
-
-            } catch (IllegalAccessException e) {
-
-            } finally {
-                field.setAccessible(false);
-            }
-        }
-
-        return this;
-    }
-
     @Override
     public String getId() {
         return id;

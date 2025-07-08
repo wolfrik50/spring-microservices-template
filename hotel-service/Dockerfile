@@ -1,39 +1,37 @@
-# Build stage
-FROM maven:3.9.9-eclipse-temurin-21-jammy AS build
+# Build Stage: Maven JDK-21 Alpine
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS builder
+
+# Add Maintainer Info
+LABEL maintainer="Swayamsidh Nayak <swayamsidh2001@gmail.com>"
+LABEL description="Build stage for Hotel Service"
+LABEL version="1.0.0"
+
+# Set Working Directory
+WORKDIR /review-system
+
+# Copy Project Files From Root
+COPY . .
+
+# Package Application
+RUN mvn clean package -DskipTests -Pkube
+
+# Runtime Stage: JDK-21 Alpine
+FROM eclipse-temurin:21-jdk-alpine
+
+# Add Maintainer Info
+LABEL maintainer="Swayamsidh Nayak <swayamsidh2001@gmail.com>"
+LABEL description="Runtime image for Hotel Service"
+LABEL version="1.0.0"
+
+# Install Dependencies
+RUN apk add --no-cache curl
+
+# Set Working Directory
 WORKDIR /app
 
-# Copy the POM file
-COPY pom.xml .
+# Copy Built JAR From Build Stage
+COPY --from=builder /review-system/hotel-service/target/hotel-service.jar hotel-service.jar
 
-# Download dependencies
-RUN mvn dependency:go-offline -B
-
-# Copy the source code
-COPY src ./src
-
-# Build the application
-RUN mvn clean package -DskipTests
-
-# Run stage
-FROM eclipse-temurin:21-jre-jammy
-
-# Set working directory
-WORKDIR /app
-
-# Set non-root user
-RUN addgroup --system javauser && adduser --system --no-create-home --group javauser
-
-# Copy the JAR file from the build stage
-COPY --from=build --chown=javauser:javauser /app/target/*.jar app.jar
-
-# Set the user
-USER javauser
-
-# Expose the port the app runs on
 EXPOSE 8082
 
-# Set JVM options for better performance
-ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:InitialRAMPercentage=50.0 -XX:MinRAMPercentage=25.0 -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/heapdump.hprof"
-
-# Command to run the application
-ENTRYPOINT exec java $JAVA_OPTS -jar app.jar
+ENTRYPOINT ["java", "-jar", "hotel-service.jar"]
